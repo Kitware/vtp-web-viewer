@@ -20,6 +20,7 @@ const render = renderWindow.render;
 
 fullScreenRenderer.addController(controlPanel);
 const representationSelector = document.querySelector('.representations');
+const pointSizeChange = document.querySelector('.pointSize');
 
 // ----------------------------------------------------------------------------
 // Rendering
@@ -40,6 +41,14 @@ representationSelector.addEventListener('change', (e) => {
 
   renderWindow.render();
 });
+
+pointSizeChange.addEventListener('input', (e) => {
+  const pointSize = Number(e.target.value);
+  actor.getProperty().setPointSize(pointSize);
+  renderWindow.render();
+});
+
+actor.getProperty().setPointSize(pointSizeChange.value);
 
 // ----------------------------------------------------------------------------
 // File IO
