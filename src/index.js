@@ -21,6 +21,7 @@ const render = renderWindow.render;
 fullScreenRenderer.addController(controlPanel);
 const representationSelector = document.querySelector('.representations');
 const pointSizeChange = document.querySelector('.pointSize');
+const lightingChange = document.querySelector('.lighting');
 
 // ----------------------------------------------------------------------------
 // Rendering
@@ -47,14 +48,30 @@ pointSizeChange.addEventListener('input', (e) => {
   actor.getProperty().setPointSize(pointSize);
   renderWindow.render();
 });
-
 actor.getProperty().setPointSize(pointSizeChange.value);
+
+lightingChange.addEventListener('input', (e) => {
+  const value = lightingChange.checked;
+  actor.getProperty().setLighting(value);
+  renderWindow.render();
+});
+actor.getProperty().setLighting(lightingChange.checked);
+
+// -----------------------------------------------------------
+// Make some variables global so that you can inspect and
+// modify objects in your browser's developer console:
+// -----------------------------------------------------------
+
+global.render = render;
+global.actor = actor;
+global.fullScreenRenderer = fullScreenRenderer;
 
 // ----------------------------------------------------------------------------
 // File IO
 // ----------------------------------------------------------------------------
 
 const reader = vtkXMLPolyDataReader.newInstance();
+global.reader = reader;
 
 function loadBase64Content (contentToLoad) {
   var buffer = Base64.toArrayBuffer(contentToLoad); // TODO: this doesn't work?
@@ -71,16 +88,6 @@ function loadBase64Content (contentToLoad) {
   resetCamera();
   render();
 }
-
-// -----------------------------------------------------------
-// Make some variables global so that you can inspect and
-// modify objects in your browser's developer console:
-// -----------------------------------------------------------
-
-global.render = render;
-global.actor = actor;
-global.reader = reader;
-global.fullScreenRenderer = fullScreenRenderer;
 
 // -----------------------------------------------------------
 // Where we inject a VTP file as a base64 string:
