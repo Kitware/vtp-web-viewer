@@ -34,15 +34,14 @@ module.exports = {
       template: 'src/index.html',
       inlineSource: '.(js|css)$',
       inject: true,
-      // minify: {
-      //   collapseWhitespace: true,
-      //   removeComments: false, // we have a comment in the body tag for injecting data
-      //   removeRedundantAttributes: true,
-      //   removeScriptTypeAttributes: true,
-      //   removeStyleLinkTypeAttributes: true,
-      //   useShortDoctype: true
-      // }
-      minify: false
+      minify: {
+        collapseWhitespace: true,
+        removeComments: false, // we have a comment in the body tag for injecting data
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
+      }
     }),
     new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
     new CleanWebpackPlugin({
