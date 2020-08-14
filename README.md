@@ -27,4 +27,6 @@ For building source in the HTML file, see https://github.com/DustinJackson/html-
 
 ## Demo
 
-Download and open the `demo.html` page
+Download and open the `demo.html` page:
+
+![demo](./demo.gif)
