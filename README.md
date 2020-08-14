@@ -27,4 +27,4 @@ For building source in the HTML file, see https://github.com/DustinJackson/html-
 
 ## Demo
 
-!![demo]('./demo.html')
+Download and open the `demo.html` page
