@@ -23,3 +23,8 @@ mesh for 3D viewing anywhere!
 ## Notes
 
 For building source in the HTML file, see https://github.com/DustinJackson/html-webpack-inline-source-plugin/issues/79
+
+
+## Demo
+
+!![demo]('./demo.html')
