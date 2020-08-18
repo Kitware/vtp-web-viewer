@@ -3,10 +3,6 @@
 This is for embedding a VTP file into a standalone HTML web app for 3D viewing
 with vtk.js
 
-## Demo
-
-Download and open the `demo.html` page:
-
 ![demo](./demo.gif)
 
 ## Usage
