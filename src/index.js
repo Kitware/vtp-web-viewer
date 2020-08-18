@@ -23,6 +23,7 @@ const representationSelector = document.querySelector('.representations');
 const pointSizeChange = document.querySelector('.pointSize');
 const lightingChange = document.querySelector('.lighting');
 const ambientChange = document.querySelector('.ambient');
+const colorsChange = document.querySelector('.colors');
 
 // ----------------------------------------------------------------------------
 // Rendering
@@ -57,6 +58,7 @@ lightingChange.addEventListener('input', (e) => {
   renderWindow.render();
 });
 actor.getProperty().setLighting(lightingChange.checked);
+global.lightingChange = lightingChange;
 
 ambientChange.addEventListener('input', (e) => {
   const value = Number(e.target.value) / 100;
@@ -64,6 +66,17 @@ ambientChange.addEventListener('input', (e) => {
   renderWindow.render();
 });
 actor.getProperty().setAmbient(Number(ambientChange.value) / 100);
+
+colorsChange.addEventListener('input', (e) => {
+  const value = colorsChange.checked;
+  actor.getMapper().setScalarVisibility(value);
+  if (!value) {
+    lightingChange.checked = true;
+    lightingChange.dispatchEvent(new Event('input'));
+  }
+  renderWindow.render();
+});
+// actor.getMapper().setScalarVisibility(colorsChange.checked);
 
 // -----------------------------------------------------------
 // Make some variables global so that you can inspect and
