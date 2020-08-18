@@ -3,8 +3,6 @@
 This is for embedding a VTP file into a standalone HTML web app for 3D viewing
 with vtk.js
 
-![demo](./demo.gif)
-
 ## Usage
 
 Please head over to the [releases page](https://kwgitlab.kitware.com/bane.sullivan/vtp-web-viewer/-/releases)
