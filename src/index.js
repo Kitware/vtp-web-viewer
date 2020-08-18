@@ -22,6 +22,7 @@ fullScreenRenderer.addController(controlPanel);
 const representationSelector = document.querySelector('.representations');
 const pointSizeChange = document.querySelector('.pointSize');
 const lightingChange = document.querySelector('.lighting');
+const ambientChange = document.querySelector('.ambient');
 
 // ----------------------------------------------------------------------------
 // Rendering
@@ -48,7 +49,7 @@ pointSizeChange.addEventListener('input', (e) => {
   actor.getProperty().setPointSize(pointSize);
   renderWindow.render();
 });
-actor.getProperty().setPointSize(pointSizeChange.value);
+actor.getProperty().setPointSize(Number(pointSizeChange.value));
 
 lightingChange.addEventListener('input', (e) => {
   const value = lightingChange.checked;
@@ -56,6 +57,13 @@ lightingChange.addEventListener('input', (e) => {
   renderWindow.render();
 });
 actor.getProperty().setLighting(lightingChange.checked);
+
+ambientChange.addEventListener('input', (e) => {
+  const value = Number(e.target.value) / 100;
+  actor.getProperty().setAmbient(value);
+  renderWindow.render();
+});
+actor.getProperty().setAmbient(Number(ambientChange.value) / 100);
 
 // -----------------------------------------------------------
 // Make some variables global so that you can inspect and
@@ -89,8 +97,8 @@ function loadBase64Content (contentToLoad) {
   render();
 }
 
-// -----------------------------------------------------------
-// Where we inject a VTP file as a base64 string:
-// -----------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Where we inject a VTP file as a base64 string in `contentToLoad`
+// ----------------------------------------------------------------------------
 
 // INSERT DATA SCRIPT HERE
