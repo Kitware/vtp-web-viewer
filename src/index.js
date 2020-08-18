@@ -52,13 +52,13 @@ pointSizeChange.addEventListener('input', (e) => {
 });
 actor.getProperty().setPointSize(Number(pointSizeChange.value));
 
-lightingChange.addEventListener('input', (e) => {
-  const value = lightingChange.checked;
+lightingChange.addEventListener('change', (e) => {
+  const value = e.target.checked;
   actor.getProperty().setLighting(value);
   renderWindow.render();
 });
-actor.getProperty().setLighting(lightingChange.checked);
-global.lightingChange = lightingChange;
+// Make sure the lighting setting matches the toggle initial state
+lightingChange.dispatchEvent(new Event('change'));
 
 ambientChange.addEventListener('input', (e) => {
   const value = Number(e.target.value) / 100;
@@ -67,16 +67,15 @@ ambientChange.addEventListener('input', (e) => {
 });
 actor.getProperty().setAmbient(Number(ambientChange.value) / 100);
 
-colorsChange.addEventListener('input', (e) => {
-  const value = colorsChange.checked;
+colorsChange.addEventListener('change', (e) => {
+  const value = e.target.checked;
   actor.getMapper().setScalarVisibility(value);
   if (!value) {
     lightingChange.checked = true;
-    lightingChange.dispatchEvent(new Event('input'));
+    lightingChange.dispatchEvent(new Event('change'));
   }
   renderWindow.render();
 });
-// actor.getMapper().setScalarVisibility(colorsChange.checked);
 
 // -----------------------------------------------------------
 // Make some variables global so that you can inspect and
