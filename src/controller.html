@@ -1,50 +1,52 @@
-<table>
+<button type="button" class="collapsible">Controls</button>
+<div class="content">
+  <table>
+    <tr class="uiRow">
+      <td>
+        <label>Ambient:</label>
+      </td>
+      <td>
+        <input class="ambient" type="range" min="0" max="100" value="25" />
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <select class="representations" style="width: 100%">
-        <option value="0">Points</option>
-        <!-- <option value="1">Wireframe</option> -->
-        <option value="2" selected>Surface</option>
-        <!-- <option value="3">Surface with Edges</option> -->
-      </select>
-    </td>
-  </tr>
+    <tr class="uiRow">
+      <td>
+        <label>Colors:</label>
+      </td>
+      <td>
+        <input class="colors" type="checkbox" name="colors" checked>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <label>Point Size:</label>
-    </td>
-    <td>
-      <input class="pointSize" type="range" min="1" max="20" value="5" />
-    </td>
-  </tr>
+    <tr class="uiRow">
+      <td>
+        <select class="representations" style="width: 100%">
+          <option value="0">Points</option>
+          <!-- <option value="1">Wireframe</option> -->
+          <option value="2" selected>Surface</option>
+          <!-- <option value="3">Surface with Edges</option> -->
+        </select>
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <label>Lighting:</label>
-    </td>
-    <td>
-      <input class="lighting" type="checkbox" name="lighting">
-    </td>
-  </tr>
+    <tr class="uiRow pointSizeRow">
+      <td>
+        <label>Point Size:</label>
+      </td>
+      <td>
+        <input class="pointSize" type="range" min="1" max="20" value="5" />
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <label>Ambient:</label>
-    </td>
-    <td>
-      <input class="ambient" type="range" min="0" max="100" value="25" />
-    </td>
-  </tr>
+    <tr class="uiRow lightingRow">
+      <td>
+        <label>Lighting:</label>
+      </td>
+      <td>
+        <input class="lighting" type="checkbox" name="lighting">
+      </td>
+    </tr>
 
-  <tr>
-    <td>
-      <label>Colors:</label>
-    </td>
-    <td>
-      <input class="colors" type="checkbox" name="colors" checked>
-    </td>
-  </tr>
-
-</table>
+  </table>
+</div>
