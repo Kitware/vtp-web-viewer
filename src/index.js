@@ -146,20 +146,26 @@ function loadBase64Content (contentToLoad) {
   var buffer = Base64.toArrayBuffer(contentToLoad); // TODO: this doesn't work?
   // const buffer = _base64ToArrayBuffer(contentToLoad);
   reader.parseAsArrayBuffer(buffer);
-
-  const polydata = reader.getOutputData(0);
-
-  actor.setMapper(mapper);
-  mapper.setInputData(polydata);
-
-  renderer.addActor(actor);
-
-  resetCamera();
-  render();
+  return reader.getOutputData(0);
 }
 
 // ----------------------------------------------------------------------------
 // Where we inject a VTP file as a base64 string in `contentToLoad`
 // ----------------------------------------------------------------------------
 
-// INSERT DATA SCRIPT HERE
+// INSERT DATA HERE:
+var contentToLoad = 'this_is_the_content';
+
+// now we have access to the PolyData
+const polydata = loadBase64Content(contentToLoad);
+
+actor.setMapper(mapper);
+mapper.setInputData(polydata);
+renderer.addActor(actor);
+
+// ----------------------------------------------------------------------------
+// Final Scene Initiation
+// ----------------------------------------------------------------------------
+
+resetCamera();
+render();

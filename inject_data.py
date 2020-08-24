@@ -3,8 +3,6 @@ import base64
 import os
 import sys
 
-loader = r"""\n\nvar contentToLoad = '{}';\nloadBase64Content(contentToLoad);\n\n"""
-
 
 def add_data_to_viewer(data_path, src_html_path):
     if os.path.isfile(data_path) and os.path.exists(src_html_path):
@@ -18,11 +16,10 @@ def add_data_to_viewer(data_path, src_html_path):
             base64Content = base64Content.decode().replace('\n', '')
 
         # Create new output file
-        script = loader.format(base64Content)
         with open(src_html_path, mode='r', encoding="utf-8") as srcHtml:
             with open(dstHtmlPath, mode='w', encoding="utf-8") as dstHtml:
                 src = srcHtml.read()
-                dist = src.replace('// INSERT DATA SCRIPT HERE', script)
+                dist = src.replace('this_is_the_content', base64Content)
                 dstHtml.write(dist)
 
 
