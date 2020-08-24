@@ -35,23 +35,23 @@ fullScreenRenderer.getInteractor().setInteractorStyle(interactorStyle);
 InteractionPresets.applyDefinitions(interactorStyleDefinitions, interactorStyle);
 
 fullScreenRenderer.addController(controlPanel);
-const uiToggle = document.querySelector('.collapsible');
-const representationSelector = document.querySelector('.representations');
-const pointSizeChange = document.querySelector('.pointSize');
-const pointSizeRow = document.querySelector('.pointSizeRow');
-const lightingChange = document.querySelector('.lighting');
-const lightingRow = document.querySelector('.lightingRow');
-const ambientChange = document.querySelector('.ambient');
-const colorsChange = document.querySelector('.colors');
+const uiToggle = document.getElementById('toggle');
+const uiContent = document.getElementById('content');
+const representationSelector = document.getElementById('representations');
+const pointSizeChange = document.getElementById('pointSize');
+const pointSizeRow = document.getElementById('pointSizeRow');
+const lightingChange = document.getElementById('lighting');
+const lightingRow = document.getElementById('lightingRow');
+const ambientChange = document.getElementById('ambient');
+const colorsChange = document.getElementById('colors');
 
 // Set up UI hide/show toggler
 uiToggle.addEventListener('click', function () {
   this.classList.toggle('active');
-  var content = this.nextElementSibling;
-  if (content.style.display === 'block') {
-    content.style.display = 'none';
+  if (uiContent.style.display === 'block') {
+    uiContent.style.display = 'none';
   } else {
-    content.style.display = 'block';
+    uiContent.style.display = 'block';
   }
 });
 

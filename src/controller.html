@@ -1,12 +1,12 @@
-<button type="button" class="collapsible">Controls</button>
-<div class="content">
+<button type="button" class="collapsible" id="toggle">Controls</button>
+<div class="content" id="content">
   <table>
     <tr class="uiRow">
       <td>
         <label>Ambient:</label>
       </td>
       <td>
-        <input class="ambient" type="range" min="0" max="100" value="25" />
+        <input id="ambient" type="range" min="0" max="100" value="25" />
       </td>
     </tr>
 
@@ -15,13 +15,13 @@
         <label>Colors:</label>
       </td>
       <td>
-        <input class="colors" type="checkbox" name="colors" checked>
+        <input id="colors" type="checkbox" checked>
       </td>
     </tr>
 
     <tr class="uiRow">
       <td>
-        <select class="representations" style="width: 100%">
+        <select id="representations" style="width: 100%">
           <option value="0">Points</option>
           <!-- <option value="1">Wireframe</option> -->
           <option value="2" selected>Surface</option>
@@ -30,21 +30,21 @@
       </td>
     </tr>
 
-    <tr class="uiRow pointSizeRow">
+    <tr class="uiRow" id="pointSizeRow">
       <td>
         <label>Point Size:</label>
       </td>
       <td>
-        <input class="pointSize" type="range" min="1" max="20" value="5" />
+        <input id="pointSize" type="range" min="1" max="20" value="5" />
       </td>
     </tr>
 
-    <tr class="uiRow lightingRow">
+    <tr class="uiRow" id="lightingRow">
       <td>
         <label>Lighting:</label>
       </td>
       <td>
-        <input class="lighting" type="checkbox" name="lighting">
+        <input id="lighting" type="checkbox">
       </td>
     </tr>
 
