@@ -5,10 +5,13 @@ import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import Base64 from 'vtk.js/Sources/Common/Core/Base64';
 
+import vtkInteractorStyleManipulator from 'vtk.js/Sources/Interaction/Style/InteractorStyleManipulator';
+import InteractionPresets from 'vtk.js/Sources/Interaction/Style/InteractorStyleManipulator/Presets';
+
 import controlPanel from './controller.html';
 
 // ----------------------------------------------------------------------------
-// Standard rendering code setup
+// Standard scene code setup
 // ----------------------------------------------------------------------------
 
 const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance();
@@ -17,6 +20,18 @@ const renderWindow = fullScreenRenderer.getRenderWindow();
 
 const resetCamera = renderer.resetCamera;
 const render = renderWindow.render;
+
+const interactorStyleDefinitions = [
+  { type: 'pan', options: { button: 3 } }, // Pan on Right button drag
+  { type: 'pan', options: { button: 1, shift: true } }, // Pan on Shift + Left button drag
+  { type: 'zoom', options: { button: 1, control: true } }, // Zoom on Ctrl + Left button drag
+  { type: 'zoom', options: { dragEnabled: false, scrollEnabled: true } }, // Zoom on scroll
+  { type: 'rotate', options: { button: 1 } } // Rotate on Left button drag
+];
+
+const interactorStyle = vtkInteractorStyleManipulator.newInstance();
+fullScreenRenderer.getInteractor().setInteractorStyle(interactorStyle);
+InteractionPresets.applyDefinitions(interactorStyleDefinitions, interactorStyle);
 
 fullScreenRenderer.addController(controlPanel);
 const representationSelector = document.querySelector('.representations');
