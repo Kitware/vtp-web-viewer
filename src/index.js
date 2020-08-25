@@ -10,6 +10,7 @@ import InteractionPresets from 'vtk.js/Sources/Interaction/Style/InteractorStyle
 
 import controlPanel from './controller.html';
 import style from './controller.css'; // need to import for webpack to bundle it
+import icon from './favicon.png';
 
 // ----------------------------------------------------------------------------
 // Standard scene code setup
@@ -18,6 +19,20 @@ import style from './controller.css'; // need to import for webpack to bundle it
 const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance();
 const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
+
+const container = fullScreenRenderer.getContainer();
+const linker = document.createElement('a');
+linker.target = '_blank';
+linker.href = 'http://www.telesculptor.org/';
+const logo = new Image();
+logo.src = icon;
+logo.style.position = 'absolute';
+logo.style.top = '25px';
+logo.style.right = '25px';
+logo.style.height = '75px';
+logo.style.cursor = 'pointer';
+linker.appendChild(logo);
+container.appendChild(linker);
 
 const resetCamera = renderer.resetCamera;
 const render = renderWindow.render;
