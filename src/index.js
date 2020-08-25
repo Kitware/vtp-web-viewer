@@ -5,14 +5,10 @@ import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import Base64 from 'vtk.js/Sources/Common/Core/Base64';
 
-import vtkInteractorStyleManipulator from 'vtk.js/Sources/Interaction/Style/InteractorStyleManipulator';
-import InteractionPresets from 'vtk.js/Sources/Interaction/Style/InteractorStyleManipulator/Presets';
-
-import controlPanel from './controller.html';
-import style from './controller.css'; // need to import for webpack to bundle it
-import icon from './favicon.png';
-
-import axes from './axes.js'
+import axes from './axes.js';
+import logo from './logo.js';
+import interactor from './interactor.js';
+import ui from './ui.js';
 
 // ----------------------------------------------------------------------------
 // Standard scene code setup
@@ -23,58 +19,11 @@ const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
 
 axes.addAxes(fullScreenRenderer);
-
-const container = fullScreenRenderer.getContainer();
-const linker = document.createElement('a');
-linker.target = '_blank';
-linker.href = 'http://www.telesculptor.org/';
-const logo = new Image();
-logo.src = icon;
-// TODO: fix stylesheet usage
-// logo.setAttribute('class', style.logo);
-logo.style.position = 'absolute';
-logo.style.top = '25px';
-logo.style.right = '25px';
-logo.style.height = '50px';
-logo.style.cursor = 'pointer';
-linker.appendChild(logo);
-container.appendChild(linker);
+logo.addLogo(fullScreenRenderer);
+interactor.useVtkInteractorStyle(fullScreenRenderer);
 
 const resetCamera = renderer.resetCamera;
 const render = renderWindow.render;
-
-const interactorStyleDefinitions = [
-  { type: 'pan', options: { button: 3 } }, // Pan on Right button drag
-  { type: 'pan', options: { button: 1, shift: true } }, // Pan on Shift + Left button drag
-  { type: 'zoom', options: { button: 1, control: true } }, // Zoom on Ctrl + Left button drag
-  { type: 'zoom', options: { dragEnabled: false, scrollEnabled: true } }, // Zoom on scroll
-  { type: 'rotate', options: { button: 1 } } // Rotate on Left button drag
-];
-
-const interactorStyle = vtkInteractorStyleManipulator.newInstance();
-fullScreenRenderer.getInteractor().setInteractorStyle(interactorStyle);
-InteractionPresets.applyDefinitions(interactorStyleDefinitions, interactorStyle);
-
-fullScreenRenderer.addController(controlPanel);
-const uiToggle = document.getElementById('toggle');
-const uiContent = document.getElementById('content');
-const representationSelector = document.getElementById('representations');
-const pointSizeChange = document.getElementById('pointSize');
-const pointSizeRow = document.getElementById('pointSizeRow');
-const lightingChange = document.getElementById('lighting');
-const lightingRow = document.getElementById('lightingRow');
-const ambientChange = document.getElementById('ambient');
-const colorsChange = document.getElementById('colors');
-
-// Set up UI hide/show toggler
-uiToggle.addEventListener('click', function () {
-  this.classList.toggle('active');
-  if (uiContent.style.display === 'block') {
-    uiContent.style.display = 'none';
-  } else {
-    uiContent.style.display = 'block';
-  }
-});
 
 // ----------------------------------------------------------------------------
 // Rendering
@@ -83,69 +32,8 @@ uiToggle.addEventListener('click', function () {
 const mapper = vtkMapper.newInstance();
 const actor = vtkActor.newInstance();
 
-representationSelector.addEventListener('change', (e) => {
-  // make sure this hides/shows the point size slider too
-  let newRepValue = Number(e.target.value);
-  if (newRepValue === 3) {
-    actor.getProperty().setEdgeVisibility(1);
-    newRepValue = 2;
-  } else {
-    actor.getProperty().setEdgeVisibility(0);
-  }
-  actor.getProperty().setRepresentation(newRepValue);
-
-  if (newRepValue === 0) {
-    // Points rep - show the slider for point size
-    pointSizeRow.style.display = 'block';
-    lightingRow.style.display = 'none';
-  } else {
-    // hide it
-    pointSizeRow.style.display = 'none';
-    lightingRow.style.display = 'block';
-  }
-
-  renderWindow.render();
-});
-// if representationSelector is set to surface by default, then hide point slider
-if (Number(representationSelector.value) === 2) {
-  pointSizeRow.style.display = 'none';
-  lightingRow.style.display = 'block';
-} else {
-  pointSizeRow.style.display = 'block';
-  lightingRow.style.display = 'none';
-}
-
-pointSizeChange.addEventListener('input', (e) => {
-  const pointSize = Number(e.target.value);
-  actor.getProperty().setPointSize(pointSize);
-  renderWindow.render();
-});
-actor.getProperty().setPointSize(Number(pointSizeChange.value));
-
-lightingChange.addEventListener('change', (e) => {
-  const value = e.target.checked;
-  actor.getProperty().setLighting(value);
-  renderWindow.render();
-});
-// Make sure the lighting setting matches the toggle initial state
-lightingChange.dispatchEvent(new Event('change'));
-
-ambientChange.addEventListener('input', (e) => {
-  const value = Number(e.target.value) / 100;
-  actor.getProperty().setAmbient(value);
-  renderWindow.render();
-});
-actor.getProperty().setAmbient(Number(ambientChange.value) / 100);
-
-colorsChange.addEventListener('change', (e) => {
-  const value = e.target.checked;
-  actor.getMapper().setScalarVisibility(value);
-  if (!value) {
-    lightingChange.checked = true;
-    lightingChange.dispatchEvent(new Event('change'));
-  }
-  renderWindow.render();
-});
+// initialize UI with the single actor
+ui.initUserInterface(fullScreenRenderer, actor);
 
 // -----------------------------------------------------------
 // Make some variables global so that you can inspect and
