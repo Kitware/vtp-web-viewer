@@ -12,6 +12,8 @@ import controlPanel from './controller.html';
 import style from './controller.css'; // need to import for webpack to bundle it
 import icon from './favicon.png';
 
+import axes from './axes.js'
+
 // ----------------------------------------------------------------------------
 // Standard scene code setup
 // ----------------------------------------------------------------------------
@@ -19,6 +21,8 @@ import icon from './favicon.png';
 const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance();
 const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
+
+axes.addAxes(fullScreenRenderer);
 
 const container = fullScreenRenderer.getContainer();
 const linker = document.createElement('a');
