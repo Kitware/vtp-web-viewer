@@ -14,7 +14,9 @@ import ui from './ui.js';
 // Standard scene code setup
 // ----------------------------------------------------------------------------
 
-const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance();
+const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(
+  { background: [1, 1, 1] }
+);
 const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
 

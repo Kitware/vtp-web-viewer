@@ -1,5 +1,5 @@
 import style from './controller.css'; // need to import for webpack to bundle it
-import icon from './favicon.png';
+import icon from './logo.png';
 
 function addLogo (fullScreenRenderer) {
   const container = fullScreenRenderer.getContainer();
@@ -13,7 +13,7 @@ function addLogo (fullScreenRenderer) {
   logo.style.position = 'absolute';
   logo.style.top = '25px';
   logo.style.right = '25px';
-  logo.style.height = '50px';
+  logo.style.height = '30px';
   logo.style.cursor = 'pointer';
   linker.appendChild(logo);
   container.appendChild(linker);

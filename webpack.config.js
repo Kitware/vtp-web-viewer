@@ -19,7 +19,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.html$/, loader: 'html-loader' },
-      { test: /\.(png|jpg)$/, use: 'url-loader?limit=81920' },
+      { test: /\.(png|jpg)$/, use: 'url-loader' },
       { test: /\.svg$/, use: [{ loader: 'raw-loader' }] }
     ].concat(vtkRules, cssRules)
   },

@@ -2,6 +2,10 @@ import controlPanel from './controller.html';
 
 function initUserInterface (fullScreenRenderer, actor) {
   fullScreenRenderer.addController(controlPanel);
+
+  const controller = fullScreenRenderer.getControlContainer();
+  controller.style['background-color'] = '#DCDCDC';
+
   const render = fullScreenRenderer.getRenderWindow().render;
 
   const uiToggle = document.getElementById('toggle');
@@ -21,8 +25,10 @@ function initUserInterface (fullScreenRenderer, actor) {
     this.classList.toggle('active');
     if (uiContent.style.display === 'block') {
       uiContent.style.display = 'none';
+      controller.style['background-color'] = '#DCDCDC';
     } else {
       uiContent.style.display = 'block';
+      controller.style['background-color'] = '#D3D3D3';
     }
   });
   // Hide by default
