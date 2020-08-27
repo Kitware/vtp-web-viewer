@@ -34,6 +34,9 @@ const render = renderWindow.render;
 const mapper = vtkMapper.newInstance();
 const actor = vtkActor.newInstance();
 
+// Set color as tan with white background
+actor.getProperty().setColor(0.824, 0.706, 0.549);
+
 // initialize UI with the single actor
 ui.initUserInterface(fullScreenRenderer, actor);
 
