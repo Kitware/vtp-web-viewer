@@ -1,4 +1,4 @@
-<button type="button" class="collapsible" id="toggle">Controls</button>
+<button type="button" class="collapsible" id="toggle">View Controls</button>
 <div class="content" id="content">
   <table>
     <tr class="uiRow">
@@ -48,5 +48,30 @@
       </td>
     </tr>
 
+  </table>
+</div>
+<p/>
+<button type="button" class="collapsible" id="toggle-measure">Measure</button>
+<div class="content" id="measure-controller">
+  <table>
+    <tr class="uiRow">
+      <span>Use P-key to select</span>
+    </tr>
+    <tr class="uiRow">
+      <td>
+        <label>Distance: </label>
+      </td>
+      <td>
+        <span id="distance">0</span>
+      </td>
+    </tr>
+    <tr class="uiRow">
+      <td>
+        <label>Marker Size: </label>
+      </td>
+      <td>
+        <input id="markerSize" type="range" min="1" max="25" value="2" />
+      </td>
+    </tr>
   </table>
 </div>

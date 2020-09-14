@@ -36,7 +36,7 @@ module.exports = {
       inject: true,
       minify: {
         collapseWhitespace: true,
-        removeComments: false, // we have a comment in the body tag for injecting data
+        removeComments: true,
         removeRedundantAttributes: true,
         removeScriptTypeAttributes: true,
         removeStyleLinkTypeAttributes: true,

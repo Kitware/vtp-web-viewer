@@ -1,5 +1,27 @@
 import controlPanel from './controller.html';
 
+function addToggleListener (controller, uiToggle, uiContent, callback = null) {
+  uiToggle.addEventListener('click', function () {
+    this.classList.toggle('active');
+    var state = null;
+    if (uiContent.style.display === 'block') {
+      uiContent.style.display = 'none';
+      controller.style['background-color'] = '#DCDCDC';
+      state = false;
+    } else {
+      uiContent.style.display = 'block';
+      controller.style['background-color'] = '#D3D3D3';
+      state = true;
+    }
+    // Call the custom callback if given
+    if (callback != null) {
+      callback(state);
+    }
+  });
+  // Hide by default
+  uiContent.style.display = 'none';
+}
+
 function initUserInterface (fullScreenRenderer, actor) {
   fullScreenRenderer.addController(controlPanel);
 
@@ -21,18 +43,7 @@ function initUserInterface (fullScreenRenderer, actor) {
   global.uiToggle = uiToggle;
 
   // Set up UI hide/show toggler
-  uiToggle.addEventListener('click', function () {
-    this.classList.toggle('active');
-    if (uiContent.style.display === 'block') {
-      uiContent.style.display = 'none';
-      controller.style['background-color'] = '#DCDCDC';
-    } else {
-      uiContent.style.display = 'block';
-      controller.style['background-color'] = '#D3D3D3';
-    }
-  });
-  // Hide by default
-  uiContent.style.display = 'none';
+  addToggleListener(controller, uiToggle, uiContent);
 
   representationSelector.addEventListener('change', (e) => {
     // make sure this hides/shows the point size slider too
@@ -99,4 +110,4 @@ function initUserInterface (fullScreenRenderer, actor) {
   });
 }
 
-export default { initUserInterface };
+export default { addToggleListener, initUserInterface };

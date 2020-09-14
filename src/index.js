@@ -4,10 +4,12 @@ import vtkFullScreenRenderWindow from 'vtk.js/Sources/Rendering/Misc/FullScreenR
 import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import Base64 from 'vtk.js/Sources/Common/Core/Base64';
+import { throttle } from 'vtk.js/Sources/macro';
 
-import axes from './axes.js';
-import logo from './logo.js';
+// import axes from './axes.js';
 import interactor from './interactor.js';
+import logo from './logo.js';
+import measure from './measure.js';
 import ui from './ui.js';
 
 // ----------------------------------------------------------------------------
@@ -20,7 +22,7 @@ const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(
 const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
 
-axes.addAxes(fullScreenRenderer);
+// axes.addAxes(fullScreenRenderer);
 logo.addLogo(fullScreenRenderer);
 interactor.useVtkInteractorStyle(fullScreenRenderer);
 
@@ -76,6 +78,29 @@ const polydata = loadBase64Content(contentToLoad);
 actor.setMapper(mapper);
 mapper.setInputData(polydata);
 renderer.addActor(actor);
+
+// ----------------------------------------------------------------------------
+// Distance Measurement Tool
+// ----------------------------------------------------------------------------
+
+const tool = new measure.DistanceTool(fullScreenRenderer);
+global.tool = tool;
+
+function handlePickEvent (e) {
+  /** On a P keypress, save the location. **/
+  var keyCode = e.keyCode;
+  if (keyCode === 112 || keyCode === 80) { // p key
+    // console.log('You pressed P!');
+    tool.savePickEvent();
+  }
+}
+
+const throttleMouseHandler = throttle((event) => {
+  tool.pickOnMouseEvent(event);
+}, 100);
+document.addEventListener('mousemove', throttleMouseHandler);
+
+document.addEventListener('keypress', handlePickEvent);
 
 // ----------------------------------------------------------------------------
 // Final Scene Initiation
