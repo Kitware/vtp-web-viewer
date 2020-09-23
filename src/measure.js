@@ -20,7 +20,8 @@ class DistanceTool {
   constructor (fullScreenRenderer, markerSize = undefined) {
     this.interactor = fullScreenRenderer.getRenderWindow().getInteractor();
     this.openGLRenderWindow = this.interactor.getView();
-    this.renderer = fullScreenRenderer.getRenderer();
+    const renderer = fullScreenRenderer.getRenderer();
+    this.renderer = renderer;
     this.renderWindow = fullScreenRenderer.getRenderWindow();
     this.lastWorldPosition = null;
     this.pickedMarkers = [];
@@ -42,15 +43,22 @@ class DistanceTool {
     this.pointerB = this._createActorForSource(this.pointerSrcB);
     this.renderer.addActor(this.pointerB);
 
-    // create line
-    this.lineSource = vtkLineSource.newInstance();
-    this.tubeFilter = vtkTubeFilter.newInstance();
-    this.tubeFilter.setInputConnection(this.lineSource.getOutputPort());
-    this.lineActor = vtkActor.newInstance();
-    const mapper = vtkMapper.newInstance();
-    this.lineActor.setMapper(mapper);
-    mapper.setInputConnection(this.tubeFilter.getOutputPort());
-    this.renderer.addActor(this.lineActor);
+    // create lines
+    function createLineSource () {
+      var lineSource = vtkLineSource.newInstance();
+      var tubeFilter = vtkTubeFilter.newInstance();
+      tubeFilter.setInputConnection(lineSource.getOutputPort());
+      var lineActor = vtkActor.newInstance();
+      var lineMapper = vtkMapper.newInstance();
+      lineActor.setMapper(lineMapper);
+      lineMapper.setInputConnection(tubeFilter.getOutputPort());
+      renderer.addActor(lineActor);
+      return [lineSource, tubeFilter, lineActor];
+    }
+
+    [this.lineSourceA, this.tubeFilterA, this.lineActorA] = createLineSource();
+    [this.lineSourceB, this.tubeFilterB, this.lineActorB] = createLineSource();
+    [this.lineSourceC, this.tubeFilterC, this.lineActorC] = createLineSource();
 
     // UI to control marker size
     this.markerSizeSlider = document.getElementById('markerSize');
@@ -98,7 +106,9 @@ class DistanceTool {
   updateMarkerRadius (radius) {
     this.pointerSrcA.setRadius(radius / 10.0);
     this.pointerSrcB.setRadius(radius / 10.0);
-    this.tubeFilter.setRadius(radius / 10.0 / 3.0);
+    this.tubeFilterA.setRadius(radius / 10.0 / 3.0);
+    this.tubeFilterB.setRadius(radius / 10.0 / 6.0);
+    this.tubeFilterC.setRadius(radius / 10.0 / 6.0);
     this.renderWindow.render();
   }
 
@@ -116,7 +126,9 @@ class DistanceTool {
     /** Reset the markers and ready the tool for making a measurement **/
     this.pointerA.setVisibility(false);
     this.pointerB.setVisibility(false);
-    this.lineActor.setVisibility(false);
+    this.lineActorA.setVisibility(false);
+    this.lineActorB.setVisibility(false);
+    this.lineActorC.setVisibility(false);
     this.pointerA.getProperty().setColor(...GREEN);
     this.pointerB.getProperty().setColor(...GREEN);
     this.renderWindow.render();
@@ -143,8 +155,19 @@ class DistanceTool {
   }
 
   updateLineSource () {
-    this.lineSource.setPoint1(this.pointerA.getPosition());
-    this.lineSource.setPoint2(this.pointerB.getPosition());
+    // the diagonal
+    this.lineSourceA.setPoint1(this.pointerA.getPosition());
+    this.lineSourceA.setPoint2(this.pointerB.getPosition());
+    // on the XY plane
+    var pos = this.pointerB.getPosition();
+    pos[2] = this.pointerA.getPosition()[2];
+    this.lineSourceB.setPoint1(this.pointerA.getPosition());
+    this.lineSourceB.setPoint2(pos);
+    // Vertical line
+    pos = this.pointerB.getPosition();
+    pos[2] = this.pointerA.getPosition()[2];
+    this.lineSourceC.setPoint1(pos);
+    this.lineSourceC.setPoint2(this.pointerB.getPosition());
   }
 
   getDistance () {
@@ -227,11 +250,13 @@ class DistanceTool {
           var r = this.pointerSrcA.getRadius();
           // Slight adjustment to avoid zero-length line warning
           var p2 = [p1[0] + r, p1[1] + r, p1[2] + r];
-          this.lineSource.setPoint1(p1);
-          this.lineSource.setPoint2(p2);
+          this.lineSourceA.setPoint1(p1);
+          this.lineSourceA.setPoint2(p2);
           this.pointerB.setPosition(p2);
           this.pointerB.setVisibility(true);
-          this.lineActor.setVisibility(true);
+          this.lineActorA.setVisibility(true);
+          this.lineActorB.setVisibility(true);
+          this.lineActorC.setVisibility(true);
           this.mode = 2;
           break;
         case 2:
