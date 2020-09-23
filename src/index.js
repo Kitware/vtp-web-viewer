@@ -1,56 +1,24 @@
 import 'vtk.js/Sources/favicon';
-import vtkActor from 'vtk.js/Sources/Rendering/Core/Actor';
-import vtkFullScreenRenderWindow from 'vtk.js/Sources/Rendering/Misc/FullScreenRenderWindow';
-import vtkMapper from 'vtk.js/Sources/Rendering/Core/Mapper';
+
 import vtkXMLPolyDataReader from 'vtk.js/Sources/IO/XML/XMLPolyDataReader';
 import Base64 from 'vtk.js/Sources/Common/Core/Base64';
 import { throttle } from 'vtk.js/Sources/macro';
 
 // import axes from './axes.js';
-import interactor from './interactor.js';
 import logo from './logo.js';
 import measure from './measure.js';
+import plotting from './plotting.js';
 import ui from './ui.js';
 
 // ----------------------------------------------------------------------------
 // Standard scene code setup
 // ----------------------------------------------------------------------------
 
-const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(
-  { background: [1, 1, 1] }
-);
-const renderer = fullScreenRenderer.getRenderer();
-const renderWindow = fullScreenRenderer.getRenderWindow();
-
-const [style, resetCamera] = interactor.useVtkInteractorStyle(fullScreenRenderer);
-
+const plotter = new plotting.Plotter();
 // axes.addAxes(fullScreenRenderer);
-logo.addLogo(fullScreenRenderer);
+logo.addLogo(plotter.fullScreenRenderer);
 
-const render = renderWindow.render;
-
-// ----------------------------------------------------------------------------
-// Rendering
-// ----------------------------------------------------------------------------
-
-const mapper = vtkMapper.newInstance();
-const actor = vtkActor.newInstance();
-
-// Set color as tan with white background
-actor.getProperty().setColor(0.824, 0.706, 0.549);
-
-// initialize UI with the single actor
-ui.initUserInterface(fullScreenRenderer, actor);
-
-// -----------------------------------------------------------
-// Make some variables global so that you can inspect and
-// modify objects in your browser's developer console:
-// -----------------------------------------------------------
-
-global.render = render;
-global.actor = actor;
-global.fullScreenRenderer = fullScreenRenderer;
-global.resetCamera = resetCamera;
+global.plotter = plotter;
 
 // ----------------------------------------------------------------------------
 // File IO
@@ -77,9 +45,7 @@ var contentToLoad = 'this_is_the_content';
 const polydata = loadBase64Content(contentToLoad);
 global.polydata = polydata;
 
-actor.setMapper(mapper);
-mapper.setInputData(polydata);
-renderer.addActor(actor);
+const actor = plotter.addMesh(polydata, { color: [0.824, 0.706, 0.549] });
 
 const b = polydata.getBounds();
 const length = Math.sqrt((b[1] - b[0]) ** 2 + (b[3] - b[2]) ** 2 + (b[5] - b[4]) ** 2);
@@ -88,7 +54,10 @@ const length = Math.sqrt((b[1] - b[0]) ** 2 + (b[3] - b[2]) ** 2 + (b[5] - b[4])
 // Distance Measurement Tool
 // ----------------------------------------------------------------------------
 
-const tool = new measure.DistanceTool(fullScreenRenderer, length * 0.0025);
+// initialize UI with the single actor
+ui.initUserInterface(plotter.fullScreenRenderer, actor);
+
+const tool = new measure.DistanceTool(plotter.fullScreenRenderer, length * 0.0025);
 global.tool = tool;
 
 function handlePickEvent (e) {
@@ -106,10 +75,3 @@ const throttleMouseHandler = throttle((event) => {
 document.addEventListener('mousemove', throttleMouseHandler);
 
 document.addEventListener('keypress', handlePickEvent);
-
-// ----------------------------------------------------------------------------
-// Final Scene Initiation
-// ----------------------------------------------------------------------------
-
-resetCamera();
-render();
