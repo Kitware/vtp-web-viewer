@@ -143,12 +143,15 @@ class DistanceTool {
   }
 
   getDistance () {
+    // retruns XYZ, XY, Z distances
     var a = this.pointerA.getPosition();
     var b = this.pointerB.getPosition();
     var xDiff = a[0] - b[0];
     var yDiff = a[1] - b[1];
     var zDiff = a[2] - b[2];
-    return Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    var xyz = Math.sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff);
+    var xy = Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    return { xyz: xyz, xy: xy, z: Math.abs(zDiff) };
   }
 
   updateMarkerPosition (worldPosition) {
@@ -160,8 +163,8 @@ class DistanceTool {
     this.renderWindow.render();
 
     if (this.mode === 2) {
-      // console.log(this.getDistance());
-      document.querySelector('#distance').innerText = this.getDistance().toFixed(3);
+      var d = this.getDistance();
+      document.querySelector('#distance').innerText = d.xyz.toFixed(3).toString() + ', ' + d.xy.toFixed(3).toString() + ', ' + d.z.toFixed(3).toString();
     }
   }
 
