@@ -86,7 +86,7 @@ const length = Math.sqrt((b[1] - b[0]) ** 2 + (b[3] - b[2]) ** 2 + (b[5] - b[4])
 // Distance Measurement Tool
 // ----------------------------------------------------------------------------
 
-const tool = new measure.DistanceTool(fullScreenRenderer, length * 0.005);
+const tool = new measure.DistanceTool(fullScreenRenderer, length * 0.0025);
 global.tool = tool;
 
 function handlePickEvent (e) {
