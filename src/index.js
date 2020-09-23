@@ -22,11 +22,11 @@ const fullScreenRenderer = vtkFullScreenRenderWindow.newInstance(
 const renderer = fullScreenRenderer.getRenderer();
 const renderWindow = fullScreenRenderer.getRenderWindow();
 
+const [style, resetCamera] = interactor.useVtkInteractorStyle(fullScreenRenderer);
+
 // axes.addAxes(fullScreenRenderer);
 logo.addLogo(fullScreenRenderer);
-interactor.useVtkInteractorStyle(fullScreenRenderer);
 
-const resetCamera = renderer.resetCamera;
 const render = renderWindow.render;
 
 // ----------------------------------------------------------------------------
@@ -50,6 +50,7 @@ ui.initUserInterface(fullScreenRenderer, actor);
 global.render = render;
 global.actor = actor;
 global.fullScreenRenderer = fullScreenRenderer;
+global.resetCamera = resetCamera;
 
 // ----------------------------------------------------------------------------
 // File IO
@@ -74,6 +75,7 @@ var contentToLoad = 'this_is_the_content';
 
 // now we have access to the PolyData
 const polydata = loadBase64Content(contentToLoad);
+global.polydata = polydata;
 
 actor.setMapper(mapper);
 mapper.setInputData(polydata);
