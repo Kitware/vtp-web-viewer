@@ -17,7 +17,7 @@ const RED = [1.0, 0.1, 0.1];
 // ----------------------------------------------------------------------------
 
 class DistanceTool {
-  constructor (fullScreenRenderer) {
+  constructor (fullScreenRenderer, markerSize = undefined) {
     this.interactor = fullScreenRenderer.getRenderWindow().getInteractor();
     this.openGLRenderWindow = this.interactor.getView();
     this.renderer = fullScreenRenderer.getRenderer();
@@ -58,7 +58,12 @@ class DistanceTool {
       const radius = Number(e.target.value);
       this.updateMarkerRadius(radius);
     });
-    this.updateMarkerRadius(Number(this.markerSizeSlider.value));
+    if (markerSize === undefined) {
+      this.updateMarkerRadius(Number(this.markerSizeSlider.value));
+    } else {
+      this.updateMarkerRadius(markerSize * 10.0);
+      this.markerSizeSlider.value = markerSize * 10.0;
+    }
     // Set up the toggle
     const controller = fullScreenRenderer.getControlContainer();
     const uiToggle = document.getElementById('toggle-measure');
