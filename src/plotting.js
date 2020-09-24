@@ -12,7 +12,7 @@ class Plotter {
     this.renderer = this.fullScreenRenderer.getRenderer();
     this.renderWindow = this.fullScreenRenderer.getRenderWindow();
 
-    [this.style, this.resetCamera] = interactor.useVtkInteractorStyle(this.fullScreenRenderer);
+    this.style = interactor.useVtkInteractorStyle(this.fullScreenRenderer);
   }
 
   addMesh (mesh, props) {
@@ -24,7 +24,7 @@ class Plotter {
     prop.set(props);
 
     this.renderer.addActor(actor);
-    this.resetCamera();
+    this.renderer.resetCamera();
     this.renderWindow.render();
 
     return actor;

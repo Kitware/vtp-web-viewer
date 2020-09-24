@@ -15,13 +15,16 @@ function useVtkInteractorStyle (fullScreenRenderer) {
   fullScreenRenderer.getInteractor().setInteractorStyle(interactorStyle);
   InteractionPresets.applyDefinitions(interactorStyleDefinitions, interactorStyle);
 
-  function resetCamera () {
-    fullScreenRenderer.getRenderer().resetCamera();
-    const center = fullScreenRenderer.getRenderer().getActiveCamera().getFocalPoint();
-    interactorStyle.setCenterOfRotation(center);
+  function resetCameraCallback (event) {
+    if (event.type === 'ResetCameraEvent') { // || event.type === 'ResetCameraClippingRangeEvent'
+      const center = fullScreenRenderer.getRenderer().getActiveCamera().getFocalPoint();
+      interactorStyle.setCenterOfRotation(center);
+    }
   }
 
-  return [interactorStyle, resetCamera];
+  fullScreenRenderer.getRenderer().onEvent(resetCameraCallback);
+
+  return interactorStyle;
 }
 
 export default { useVtkInteractorStyle };
