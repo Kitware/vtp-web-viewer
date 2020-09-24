@@ -16,7 +16,7 @@ function useVtkInteractorStyle (fullScreenRenderer) {
   InteractionPresets.applyDefinitions(interactorStyleDefinitions, interactorStyle);
 
   function resetCameraCallback (event) {
-    if (event.type === 'ResetCameraEvent') { // || event.type === 'ResetCameraClippingRangeEvent'
+    if (event.type === 'ResetCameraEvent' || event.type === 'ResetCameraClippingRangeEvent') {
       const center = fullScreenRenderer.getRenderer().getActiveCamera().getFocalPoint();
       interactorStyle.setCenterOfRotation(center);
     }
