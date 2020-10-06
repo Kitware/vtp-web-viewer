@@ -46,3 +46,21 @@ mesh for 3D viewing anywhere!
 ## Notes
 
 For building source in the HTML file, see https://github.com/DustinJackson/html-webpack-inline-source-plugin/issues/79
+
+
+## Supported VTP File Types
+
+|| Appended | Ascii | Binary |
+|------|----|----|----|
+| None | ✅ | ✅ | ✅ |
+| LZ4  | ❌ | ❌ | ❌ |
+| ZLib | ✅ | ✅ | ✅ |
+| LZMA | ❌ | ❌ | ❌ |
+
+Of the supported formats, `Appended-ZLib` has the mallest file size. For one specific mesh, here is a comparison. This should scale:
+
+
+|| Appended | Ascii | Binary |
+|------|----|----|----|
+| None | 27 Mb | 48 Mb | 35 Mb |
+| ZLib | 8.7 Mb | 48 Mb | 11 Mb |
