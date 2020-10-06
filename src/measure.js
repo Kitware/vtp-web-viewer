@@ -17,7 +17,7 @@ const RED = [1.0, 0.1, 0.1];
 // ----------------------------------------------------------------------------
 
 class DistanceTool {
-  constructor (fullScreenRenderer, markerSize = undefined) {
+  constructor (fullScreenRenderer, maxMarkerSize) {
     this.interactor = fullScreenRenderer.getRenderWindow().getInteractor();
     this.openGLRenderWindow = this.interactor.getView();
     const renderer = fullScreenRenderer.getRenderer();
@@ -62,16 +62,14 @@ class DistanceTool {
 
     // UI to control marker size
     this.markerSizeSlider = document.getElementById('markerSize');
+    this.markerSizeSlider.max = maxMarkerSize * 100.0;
     this.markerSizeSlider.addEventListener('input', (e) => {
-      const radius = Number(e.target.value);
+      const radius = Number(e.target.value) / 100.0;
       this.updateMarkerRadius(radius);
     });
-    if (markerSize === undefined) {
-      this.updateMarkerRadius(Number(this.markerSizeSlider.value));
-    } else {
-      this.updateMarkerRadius(markerSize * 10.0);
-      this.markerSizeSlider.value = markerSize * 10.0;
-    }
+    const initialMarkerSize = maxMarkerSize / 2.0;
+    this.updateMarkerRadius(initialMarkerSize);
+    this.markerSizeSlider.value = initialMarkerSize * 100.0;
     // Set up the toggle
     const controller = fullScreenRenderer.getControlContainer();
     const uiToggle = document.getElementById('toggle-measure');

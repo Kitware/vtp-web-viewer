@@ -57,7 +57,7 @@ const length = Math.sqrt((b[1] - b[0]) ** 2 + (b[3] - b[2]) ** 2 + (b[5] - b[4])
 // initialize UI with the single actor
 ui.initUserInterface(plotter.fullScreenRenderer, actor);
 
-const tool = new measure.DistanceTool(plotter.fullScreenRenderer, length * 0.0025);
+const tool = new measure.DistanceTool(plotter.fullScreenRenderer, length * 0.05);
 global.tool = tool;
 
 function handlePickEvent (e) {
