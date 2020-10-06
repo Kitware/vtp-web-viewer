@@ -29,6 +29,10 @@ class Plotter {
 
     return actor;
   }
+
+  render () {
+    this.renderWindow.render();
+  }
 }
 
 export default { Plotter };

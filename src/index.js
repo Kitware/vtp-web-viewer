@@ -28,8 +28,7 @@ const reader = vtkXMLPolyDataReader.newInstance();
 global.reader = reader;
 
 function loadBase64Content (contentToLoad) {
-  var buffer = Base64.toArrayBuffer(contentToLoad); // TODO: this doesn't work?
-  // const buffer = _base64ToArrayBuffer(contentToLoad);
+  var buffer = Base64.toArrayBuffer(contentToLoad);
   reader.parseAsArrayBuffer(buffer);
   return reader.getOutputData(0);
 }
@@ -46,6 +45,12 @@ const polydata = loadBase64Content(contentToLoad);
 global.polydata = polydata;
 
 const actor = plotter.addMesh(polydata, { color: [0.824, 0.706, 0.549] });
+if (polydata.getPointData().getActiveScalars() < 0) {
+  polydata.getPointData().setActiveScalars('RGB');
+  actor.getMapper().setColorModeToDirectScalars();
+  actor.getMapper().setScalarVisibility(true);
+  plotter.render();
+}
 
 const b = polydata.getBounds();
 const length = Math.sqrt((b[1] - b[0]) ** 2 + (b[3] - b[2]) ** 2 + (b[5] - b[4]) ** 2);

@@ -50,6 +50,8 @@ For building source in the HTML file, see https://github.com/DustinJackson/html-
 
 ## Supported VTP File Types
 
+The given mesh file should have a point data array named `'RGB'`.
+
 || Appended | Ascii | Binary |
 |------|----|----|----|
 | None | ✅ | ✅ | ✅ |
