@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  style:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,3 +23,17 @@ jobs:
         with:
           name: mesh.html
           path: mesh.html
+  publish:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download HTML
+        uses: actions/download-artifact@v2
+        with:
+          name: mesh.html
+          path: html/mesh.html
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html
