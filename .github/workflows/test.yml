@@ -1,0 +1,25 @@
+name: Test
+on:
+  pull_request:
+  push:
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm run-script build
+      - run: python inject_data.py mesh.vtp dist/index.html
+      - name: Upload Result
+        uses: actions/upload-artifact@v2
+        with:
+          name: mesh.html
+          path: mesh.html
