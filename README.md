@@ -3,9 +3,13 @@
 This is for embedding a VTP file into a standalone HTML web app for 3D viewing
 with vtk.js
 
+This was developed for use with meshes created from Telesculptor.
+
+There is a particularly useful distance measuring widget included here.
+
 ## Usage
 
-Please head over to the [releases page](https://kwgitlab.kitware.com/bane.sullivan/vtp-web-viewer/-/releases)
+Please head over to the [releases page](https://github.com/Kitware/vtp-web-viewer/releases/)
 and download the pre-built HTML file from the latest release notes with the
 Python script for "injecting" a VTP mesh file into the viewer.
 
@@ -59,7 +63,7 @@ The given mesh file should have a point data array named `'RGB'`.
 | ZLib | ✅ | ✅ | ✅ |
 | LZMA | ❌ | ❌ | ❌ |
 
-Of the supported formats, `Appended-ZLib` has the mallest file size. For one specific mesh, here is a comparison. This should scale:
+Of the supported formats, `Appended-ZLib` has the smallest file size. For one specific mesh, here is a comparison. This should scale:
 
 
 || Appended | Ascii | Binary |
