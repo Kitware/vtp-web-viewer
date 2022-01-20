@@ -26,6 +26,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    needs: test
     steps:
       - name: Download HTML
         uses: actions/download-artifact@v2
