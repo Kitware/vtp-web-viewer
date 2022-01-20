@@ -21,7 +21,7 @@ jobs:
       - name: Upload Result
         uses: actions/upload-artifact@v2
         with:
-          name: index.html
+          name: mesh.html
           path: mesh.html
   publish:
     runs-on: ubuntu-latest
@@ -31,8 +31,10 @@ jobs:
       - name: Download HTML
         uses: actions/download-artifact@v2
         with:
-          name: index.html
+          name: mesh.html
           path: html/
+      - name: Rename source
+        run: mv html/mesh.html html/index.html
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
